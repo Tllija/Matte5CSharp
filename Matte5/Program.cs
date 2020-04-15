@@ -6,7 +6,24 @@ namespace Matte5
     {
         static void Main()
         {
-            
+            Console.WriteLine("Press enter after every pramter\nEnter n, A0, C0");
+
+            var n = int.Parse(Console.ReadLine());
+
+            var a0= Double.Parse(Console.ReadLine());
+            Func<double, int, double> aLambda = (a0, n) => a0 * 0.75; //Console.ReadLine();
+
+            var c0 = Double.Parse(Console.ReadLine());
+            Func<double, int, double> cLambda = (c0, n) => c0 * 0.7; //Console.ReadLine(); 
+
+            var (an, cn) = iter(n, a0, aLambda, c0, cLambda);
+            Console.WriteLine("a: {0}, c: {1}", an, cn);
+
+        }
+
+        private Func<double, int, double> ParseString(string str)
+        {
+            throw new NotImplementedException();
         }
 
         public static (double, double) iter(int n, double a0, Func<double, int, double> af, double c0, Func<double, int, double> cf)
