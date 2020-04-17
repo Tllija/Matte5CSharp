@@ -21,13 +21,14 @@ namespace Matte5
                 Func<double, double, double> cLambda = ParseString(Console.ReadLine());
 
                 //var (an, cn) = iter(n, a0, aLambda, c0, cLambda);
-                Console.WriteLine("Calculatig for n = {0}, A0 = {1}, C0 = {2}", n, a0, c0);
+                Console.WriteLine("\nCalculatig for n = {0}, A0 = {1}, C0 = {2}", n, a0, c0);
                 var (an, cn) = calc(n, a0, aLambda, c0, cLambda, true);
                 Console.WriteLine("a: {0}, c: {1}", an, cn);
             }
             
         }
 
+        // Ignore this function, it has nothing to do with the maths
         private static Func<double, double, double> ParseString(string str)
         {
             var context = new ExpressionContext();
@@ -55,11 +56,15 @@ namespace Matte5
         {
 
             double a = a0, c = c0;
+
+            // Loop n times / n months
             for(int i = 0; i < n; i++)
             {
+                // Amont of cars rented at a and c
                 var aRented = af(a, i);
                 var cRented = cf(c, i);
 
+                // Clamp = value cannot go outside given range, i.e. 0 and a or 0 and c in this case
                 if (clamp)
                 {
                     // Negative cars cannot be rented and more cars than exist cannot be rented.
@@ -67,15 +72,19 @@ namespace Matte5
                     cRented = cRented.Clamp(0, c);
                 }
 
+                // The amount of cars at a and c after one month
                 var an = a - aRented * 0.75 + cRented * 0.30;
                 var cn = c - cRented * 0.30 + aRented * 0.75;
 
+                
                 a = an;
                 c = cn;
 
+                // Display current amount of cars and such
                 Console.WriteLine("N: {0} => ({1}, {2}) where the amount rented was ({3}, {4})", i, a.Round(2), c.Round(2), aRented.Round(2), cRented.Round(2));
             }
 
+            // Return value a and c (the amount of cars)
             return (a, c);
         }
 
