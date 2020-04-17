@@ -1,6 +1,9 @@
 ﻿using Flee.PublicTypes;
 using System;
 using System.Collections.Generic;
+using ExcelNumberFormat;
+using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Office2013.Drawing.ChartStyle;
 
 namespace Matte5
 {
@@ -54,6 +57,10 @@ namespace Matte5
             double c0, Func<double, double, double> cf,
             bool clamp = false)
         {
+            using var workbook = new XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Maths");
+
+
 
             double a = a0, c = c0;
 
@@ -80,11 +87,17 @@ namespace Matte5
                 a = an;
                 c = cn;
 
-                // Display current amount of cars and such
+
+                worksheet.Cell(i + 2, 1).Value = i;
+                worksheet.Cell(i + 2, 2).Value = a;
+                worksheet.Cell(i + 2, 3).Value = c;
+                worksheet.Cell(i + 2, 4).Value = aRented;
+                worksheet.Cell(i + 2, 5).Value = cRented;
                 Console.WriteLine("N: {0} => ({1}, {2}) where the amount rented was ({3}, {4})", i, a.Round(2), c.Round(2), aRented.Round(2), cRented.Round(2));
             }
 
             // Return value a and c (the amount of cars)
+            workbook.SaveAs("Matte5Excel.xlsx");
             return (a, c);
         }
 
